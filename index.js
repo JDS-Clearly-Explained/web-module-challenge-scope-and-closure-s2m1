@@ -64,8 +64,8 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning(){
+  return Math.floor(Math.random() * 3);
 }
 
 
@@ -83,8 +83,17 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*Code Here*/){
-  /*Code Here*/
+function finalScore(inning, numInnings){
+  let homeScore = 0;
+  let awayScore = 0;
+  for(let i = 0; i < numInnings; i++){
+    homeScore += inning();
+    awayScore += inning();
+  }
+  return {
+    Home: homeScore,
+    Away: awayScore
+  }
 }
 
 
@@ -101,9 +110,11 @@ For example: invoking getInningScore(inning) might return this object:
   */
 
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
-
+function getInningScore(inning) {
+  return {
+    Home: inning(),
+    Away: inning()
+  }
 }
 
 
@@ -147,11 +158,25 @@ Use the scoreboard function below to do the following:
   "This game will require extra innings: Away 10 - Home 10"
 ] */
 // NOTE: There is no test associated with this code; if your output matches the given example, consider it complete!
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, numInnings) {
+  let homeScore = 0;
+  let awayScore = 0;
+  let scoreBoard = [];
+  for(let i = 0; i < numInnings; i++){
+    let inningScore = getInningScore(inning);
+    homeScore += inningScore.Home;
+    awayScore += inningScore.Away;
+    scoreBoard.push(`Inning ${i+1}: Away ${inningScore.Away} - Home ${inningScore.Home}`);
+  }
+  if(homeScore === awayScore){
+    scoreBoard.push(`This game will require extra innings: Away ${awayScore} - Home ${homeScore}`);
+  } else {
+    scoreBoard.push(`Final Score: Away ${awayScore} - Home ${homeScore}`);
+  }
+  return scoreBoard;
 }
 
-
+console.log(scoreboard(getInningScore, inning, 9));
 
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
